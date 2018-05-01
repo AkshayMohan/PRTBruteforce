@@ -19,5 +19,6 @@ int main(int argc, char **argv) {
 
 		//Instead of printing bf_handle.bfText - I can use this loop against a database, SSH or POST requests.
 	}
+	bruteforce_finalize(&bf_handle);
 	return 0;
 }
