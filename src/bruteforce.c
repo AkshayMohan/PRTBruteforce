@@ -64,13 +64,13 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 					i,
 					currLen = 0
 	;
-	if( (bfHandle->bfText = (char *)malloc(maxLen * sizeof(char))) == NULL) 
+	if( (bfHandle->bfText = (char *)malloc((maxLen + 1)* sizeof(char))) == NULL) 
 		return 0;
 
 	if(flags & BF_FLAG_CUSTOM) {
 
 		currLen = strlen(data);
-		if( (bfHandle->bfData = (char *)malloc(currLen * sizeof(char))) == NULL) {
+		if( (bfHandle->bfData = (char *)malloc((currLen + 1) * sizeof(char))) == NULL) {
 
 			free(bfHandle->bfText);
 			return 0;
@@ -121,7 +121,7 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 
 		bfHandle->bfUpdIdx = strlen(startString) - 1;
 		memcpy(bfHandle->bfText, startString, bfHandle->bfUpdIdx + 1);
-		for(currLen = 0; currLen < maxLen; currLen++) {
+		for(currLen = 0; currLen <= bfHandle->bfUpdIdx; currLen++) {
 
 			for(i = 0; bfHandle->bfText[currLen] != bfHandle->bfData[i]; i++);
 			bfHandle->bfCurrIdx[currLen]			=	i;
@@ -132,7 +132,7 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 		bfHandle->bfUpdIdx							=	0;
 		*(bfHandle->bfCurrIdx)						=	-1;
 	}
-	for(i = bfHandle->bfUpdIdx + 1; i< maxLen; i++)
+	for(i = bfHandle->bfUpdIdx + 1; i<= maxLen; i++)
 		bfHandle->bfText[i]							=	'\0';
 	return 1;
 }
