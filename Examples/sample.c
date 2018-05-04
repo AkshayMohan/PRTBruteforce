@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
 	//Initialize it.
 	bruteforce_init(
 		&bf_handle, 			//The handler to be initialized.
-		4, 						//Maximum length upto which bruteforce is performed.
+		3, 						//Maximum length upto which bruteforce is performed.
 		BF_FLAG_ALPHANUM,		//Include alphabets and numbers.
 		NULL,					//I'm not using custom bruteforce character set, so I set this argument to NULL.
 		NULL					//I'll start from the very beginning, I'm not having any particular entry point.
