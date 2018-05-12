@@ -27,7 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#if defined __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -151,8 +151,13 @@ int bruteforce_update(BRUTEFORCE_HANDLE *bfHandle) {
 	}
 	if(j == -1) {
 
-		if(strlen(bfHandle->bfText) < bfHandle->bfmaxLen)
-			bfHandle->bfText[++bfHandle->bfUpdIdx]			=	bfHandle->bfData[(bfHandle->bfCurrIdx[bfHandle->bfUpdIdx] = 0)];
+		if(strlen(bfHandle->bfText) < bfHandle->bfmaxLen) {
+#ifdef __cplusplus
+			bfHandle->bfText[bfHandle->bfUpdIdx] = bfHandle->bfData[(bfHandle->bfCurrIdx[++bfHandle->bfUpdIdx] = 0)];
+#else
+			bfHandle->bfText[++bfHandle->bfUpdIdx] = bfHandle->bfData[(bfHandle->bfCurrIdx[bfHandle->bfUpdIdx] = 0)];
+#endif
+		}
 		else return 0;
 	}
 	return 1;
@@ -165,6 +170,6 @@ void bruteforce_finalize(BRUTEFORCE_HANDLE *bfHandle) {
 	free(bfHandle->bfCurrIdx);
 }
 
-#if defined __cplusplus
+#ifdef __cplusplus
 }
 #endif
