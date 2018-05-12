@@ -27,8 +27,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef BRUTEFORCE_H
-#define BRUTEFORCE_H
+#ifndef PRTBRUTEFORCE_H
+#define PRTBRUTEFORCE_H
 
 #define		BF_FLAG_ALL				BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS | BF_FLAG_SYMBOLS
 #define		BF_FLAG_ALPHANUMERIC	BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS
@@ -78,7 +78,7 @@ Returns:
 	1								-		On success.
 	0								-		On failure.
 */
-int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE_FLAGS flags, char *data, char *startString);
+extern int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE_FLAGS flags, char *data, char *startString);
 
 /*
 bruteforce_update - Updates the bruteforce handler (updates bfText).
@@ -90,7 +90,7 @@ Returns:
 	1								-		On success.
 	0								-		On failure (indicates that bruteforce is over).
 */
-int bruteforce_update(BRUTEFORCE_HANDLE *bfHandle);
+extern int bruteforce_update(BRUTEFORCE_HANDLE *bfHandle);
 
 /*
 bruteforce_finalize - Finalizes/Deallocates given bruteforce handler.
@@ -101,6 +101,6 @@ Parameters:
 Returns:
 	No specific value.
 */
-void bruteforce_finalize(BRUTEFORCE_HANDLE *bfHandle);
+extern void bruteforce_finalize(BRUTEFORCE_HANDLE *bfHandle);
 
 #endif
