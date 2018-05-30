@@ -2,6 +2,8 @@
 	PRT Bruteforce - Akshay Mohan.
 	bruteforce.h
 
+	Last Update - 31st of May, 2018.
+
 	LICENSE:
 	
 	MIT License
@@ -30,9 +32,9 @@ SOFTWARE.
 #ifndef PRTBRUTEFORCE_H
 #define PRTBRUTEFORCE_H
 
-#define		BF_FLAG_ALL				BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS | BF_FLAG_SYMBOLS
-#define		BF_FLAG_ALPHANUMERIC	BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS
-#define 	BF_FLAG_LETTERS			BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE
+#define		BF_FLAG_ALL				(BRUTEFORCE_FLAGS)(BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS | BF_FLAG_SYMBOLS)
+#define		BF_FLAG_ALPHANUMERIC	(BRUTEFORCE_FLAGS)(BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE | BF_FLAG_DIGITS)
+#define 	BF_FLAG_LETTERS			(BRUTEFORCE_FLAGS)(BF_FLAG_UPPERCASE | BF_FLAG_LOWERCASE)
 #define		BF_FLAG_ALPHANUM 		BF_FLAG_ALPHANUMERIC
 
 enum BRUTEFORCE_FLAGS {
@@ -50,14 +52,14 @@ extern char g_BRUTEFORCE_bfSymbols[34];
 struct BRUTEFORCE_HANDLE {
 
 	char
-					*bfText,			//Current bruteforce text.
-					bflastChar,			//Bruteforce terminating character.
-					*bfData				//Array consisting of characters to be included on bruteforce attempts.
+			*bfText,			//Current bruteforce text.
+			bflastChar,			//Bruteforce terminating character.
+			*bfData				//Array consisting of characters to be included on bruteforce attempts.
 	;
-	unsigned int
-					bfmaxLen,			//Maximum length of 'bfText'.
-					*bfCurrIdx,			//The current index in bfData.
-					bfUpdIdx			//The index in 'bfText' from where update occurs.
+	size_t
+			bfmaxLen,			//Maximum length of 'bfText'.
+			*bfCurrIdx,			//The current index in bfData.
+			bfUpdIdx			//The index in 'bfText' from where update occurs.
 	;
 };
 
@@ -69,16 +71,16 @@ bruteforce_init - Initializes a bruteforce handler.
 
 Parameters:
 	BRUTEFORCE_HANDLE *bfHandle 	-		Bruteforce handler.
-	unsigned int maxLen				-		Maximum length upto which bruteforce is performed.
+	size_t maxLen					-		Maximum length upto which bruteforce is performed.
 	BRUTEFORCE_FLAGS flags 			-		Flags that determine what type of characters should be used. Use BF_FLAG_CUSTOM to use custom character set.
-	char *data 						-		Data or character set containing bruteforce characters. Set NULL to use the default character set.
-	char *startString 				-		String from where bruteforce should be started. Set NULL to start from beginning (first chararcter from bfData(character set)).
+	const char *data 				-		Data or character set containing bruteforce characters. Set NULL to use the default character set.
+	const char *startString 		-		String from where bruteforce should be started. Set NULL to start from beginning (first chararcter from bfData(character set)).
 
 Returns:
 	1								-		On success.
 	0								-		On failure.
 */
-extern int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE_FLAGS flags, char *data, char *startString);
+extern int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, size_t maxLen, BRUTEFORCE_FLAGS flags, const char *data, const char *startString);
 
 /*
 bruteforce_update - Updates the bruteforce handler (updates bfText).
