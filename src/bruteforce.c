@@ -2,6 +2,8 @@
 	PRT Bruteforce - Akshay Mohan.
 	bruteforce.c
 	
+	Last Update - 31st of May, 2018.
+
 	LICENSE:
 	
 	MIT License
@@ -26,10 +28,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -58,11 +56,11 @@ int g_BRUTEFORCE_dataLen[16] = {
 char 
 	g_BRUTEFORCE_bfSymbols[34] = " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~"; 	//Used only if BF_FLAG_CUSTOM is used.
 
-int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE_FLAGS flags, char *data, char *startString) {
+int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, size_t maxLen, BRUTEFORCE_FLAGS flags, const char *data, const char *startString) {
 
-	unsigned int
-					i,
-					currLen = 0
+	size_t
+			i,
+			currLen = 0
 	;
 	if( (bfHandle->bfText = (char *)malloc((maxLen + 1)* sizeof(char))) == NULL) 
 		return 0;
@@ -86,19 +84,19 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 		if(flags & BF_FLAG_UPPERCASE) {
 
 			for(i = 0; i< 26; i++)
-				bfHandle->bfData[i] 			= 	65 + i;
+				bfHandle->bfData[i] 			= 	(char)(65 + i);
 			currLen += 26;
 		}
 		if(flags & BF_FLAG_LOWERCASE) {
 
 			for(i = 0; i< 26; i++)
-				bfHandle->bfData[currLen + i] 	= 	97 + i;
+				bfHandle->bfData[currLen + i] 	= 	(char)(97 + i);
 			currLen += 26;
 		}
 		if(flags & BF_FLAG_DIGITS) {
 
 			for(i = 0; i< 10; i++)
-				bfHandle->bfData[currLen + i] 	= 	48 + i;
+				bfHandle->bfData[currLen + i] 	= 	(char)(48 + i);
 			currLen += 10;
 		}
 		if(flags & BF_FLAG_SYMBOLS) {
@@ -107,7 +105,7 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 			currLen += 33;
 		}
 	}
-	if( (bfHandle->bfCurrIdx = (unsigned int *)malloc(maxLen * sizeof(unsigned int))) == NULL) {
+	if( (bfHandle->bfCurrIdx = (size_t *)malloc(maxLen * sizeof(size_t))) == NULL) {
 
 		free(bfHandle->bfText);
 		free(bfHandle->bfData);
@@ -139,25 +137,24 @@ int bruteforce_init(BRUTEFORCE_HANDLE *bfHandle, unsigned int maxLen, BRUTEFORCE
 
 int bruteforce_update(BRUTEFORCE_HANDLE *bfHandle) {
 
-	int i = bfHandle->bfUpdIdx, j = -1;
-	while(i >= 0) {
+	size_t i = bfHandle->bfUpdIdx;
+	while(i != (size_t)-1) {
 
 		if(bfHandle->bfText[i] != bfHandle->bflastChar) {
 
-			bfHandle->bfText[i]			=	bfHandle->bfData[(j = bfHandle->bfCurrIdx[i]++ + 1)];
+			bfHandle->bfText[i] = bfHandle->bfData[++bfHandle->bfCurrIdx[i]];
 			break;
 		} else
-			bfHandle->bfText[i]			=	bfHandle->bfData[(bfHandle->bfCurrIdx[i--] = 0)];
+			bfHandle->bfText[i] = bfHandle->bfData[(bfHandle->bfCurrIdx[i--] = 0)];
 	}
-	if(j == -1) {
+	if(i == (size_t)-1) {
 
-		if(strlen(bfHandle->bfText) < bfHandle->bfmaxLen) {
+		if((bfHandle->bfUpdIdx + 1) < bfHandle->bfmaxLen)
 #ifdef __cplusplus
 			bfHandle->bfText[bfHandle->bfUpdIdx] = bfHandle->bfData[(bfHandle->bfCurrIdx[++bfHandle->bfUpdIdx] = 0)];
 #else
 			bfHandle->bfText[++bfHandle->bfUpdIdx] = bfHandle->bfData[(bfHandle->bfCurrIdx[bfHandle->bfUpdIdx] = 0)];
 #endif
-		}
 		else return 0;
 	}
 	return 1;
@@ -169,7 +166,3 @@ void bruteforce_finalize(BRUTEFORCE_HANDLE *bfHandle) {
 	free(bfHandle->bfData);
 	free(bfHandle->bfCurrIdx);
 }
-
-#ifdef __cplusplus
-}
-#endif
