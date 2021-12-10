@@ -144,8 +144,11 @@ int bruteforce_update(BRUTEFORCE_HANDLE *bfHandle) {
 
 			bfHandle->bfText[i] = bfHandle->bfData[++bfHandle->bfCurrIdx[i]];
 			break;
-		} else
-			bfHandle->bfText[i] = bfHandle->bfData[(bfHandle->bfCurrIdx[i--] = 0)];
+		} else {
+
+			bfHandle->bfText[i] = bfHandle->bfData[(bfHandle->bfCurrIdx[i] = 0)];
+			i--;
+		}
 	}
 	if(i == (size_t)-1) {
 
