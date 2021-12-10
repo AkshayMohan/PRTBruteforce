@@ -2,13 +2,13 @@
 	PRT Bruteforce - Akshay Mohan.
 	bruteforce.c
 	
-	Last Update - 31st of May, 2018.
+	Last Update - 10th of December, 2021.
 
 	LICENSE:
 	
 	MIT License
 
-Copyright (c) 2018-2020 Akshay Mohan
+Copyright (c) 2018-2021 Akshay Mohan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
